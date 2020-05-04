@@ -2,7 +2,7 @@
 This is a repository that holds some common plugins, workflows and a file structure that is useful for starting a Tailwind project. It uses Gulp as the toolkit to automate the workflow.
 
 ## General workflow
-All source files are placed in /src. When you run `gulp development` these files are processed and placed into /dev. The files in /dev can be read by your browser.
+All source files are placed in [/src](/src). When you run `gulp development` these files are processed and placed into /dev. The files in /dev can be read by your browser.
 
 When development has finished a `gulp production` command runs a a series of scripts that processes all the /dev files and places them into /public. /public is the final, production ready site. 
 
