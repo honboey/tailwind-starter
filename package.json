@@ -1,0 +1,30 @@
+{
+  "name": "tailwind-starter",
+  "version": "1.0.0",
+  "description": "Starter kit for Tailwind projects",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.7.6",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-nunjucks-render": "^2.2.3",
+    "gulp-postcss": "^8.0.0",
+    "gulp-purgecss": "^2.1.2",
+    "tailwindcss": "^1.4.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/honboey/tailwind-starter.git"
+  },
+  "author": "Hon Boey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/honboey/tailwind-starter/issues"
+  },
+  "homepage": "https://github.com/honboey/tailwind-starter#readme"
+}

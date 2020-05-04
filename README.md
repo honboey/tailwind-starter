@@ -46,9 +46,13 @@ These instructions are for getting the project running on a local development en
 
 ### System requirements
 * [NodeJS v12.16.3](https://nodejs.org)
+* [Gulp](https://gulpjs.com/)
 
-### Install and run
-Run `gulp develop` to create the initial development build.
+### Install plugins 
+Install all the necessary pluging by running `npm install gulp-postcss tailwindcss autoprefixer gulp-nunjucks-render gulp-purgecss gulp-clean-css --save-dev`
+
+### Run your first build
+`gulp develop`
 
 ## Common commands
 
