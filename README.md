@@ -59,18 +59,18 @@ Install all the necessary plug-ins by running `npm install gulp-postcss tailwind
 ### Development
 * `gulp development` processes and watches all [/src](/src) files and puts them into [/dev](/dev).
 
-* `gulp css` processes .css files in [/dev](/dev).
-* `gulp html` processes .njk files in [/src](/src) and converts them to .html and places them in [/dev](/dev).
-* `gulp scripts` processes .js files in [/src](/src) and and places them in [/dev](/dev).
-* `gulp watchTask` watches any changes in [/src](/src) and runs the necessary script.
+   * `gulp css` processes .css files in [/dev](/dev).
+   * `gulp html` processes .njk files in [/src](/src) and converts them to .html and places them in [/dev](/dev).
+   * `gulp scripts` processes .js files in [/src](/src) and and places them in [/dev](/dev).
+   * `gulp watchTask` watches any changes in [/src](/src) and runs the necessary script.
 
 ### Production
 * `gulp production` processes and watches all [/dev](/dev) files and puts them into [/public](/public).
 
-* `gulp cssProduction` processes .css files in [/dev](/dev).
-* `gulp scriptsProduction` uglifies all .js files in [/dev](/dev)
+   * `gulp cssProduction` processes .css files in [/dev](/dev).
+   * `gulp scriptsProduction` uglifies all .js files in [/dev](/dev)
 
 ## Optional plug-ins
 Some useful plugins include:
-* [https://swup.js.org/](SwupJS) for animated page transitions
+* [SwupJS](https://swup.js.org/) for animated page transitions
 
