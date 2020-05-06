@@ -9,7 +9,6 @@ const terser = require("gulp-terser");
 const responsive = require("gulp-responsive");
 const imagemin = require("gulp-imagemin");
 const cache = require("gulp-cached");
-// const browserSync = require("browser-sync");
 
 // File paths
 const files = {
@@ -41,6 +40,11 @@ function scripts() {
     .pipe(dest("dev/scripts"))
 }
 
+function typeface() {
+    return src("src/styles/*.woff").pipe(dest("dev/styles/"))
+}
+
+// This creates multiple sizes for any .jpg image in /src/img. It ignores any image which has the suffix "-lazy.jpg"
 function images() {
     return src(["src/img/**/*.jpg", "!src/img/**/*-lazy.jpg"])
     .pipe(cache("imageResizing"))
@@ -64,13 +68,10 @@ function images() {
     .pipe(dest("dev/img"))
 }
 
+// Copies over the "-lazy.jpg" image to /dev
 function lazyImageCopy() {
     return src("src/img/**/*-lazy.jpg")
     .pipe(dest("dev/img"))
-}
-
-function typeface() {
-    return src("src/styles/*.woff").pipe(dest("dev/styles/"))
 }
 
 // Watchtasks
