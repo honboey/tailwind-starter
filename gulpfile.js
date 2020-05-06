@@ -5,7 +5,10 @@ const autoprefixer = require("autoprefixer");
 const nunjucks = require("gulp-nunjucks-render");
 const purgecss = require("gulp-purgecss");
 const cleanCss = require("gulp-clean-css");
-const terser = require('gulp-terser');
+const terser = require("gulp-terser");
+const responsive = require("gulp-responsive");
+const imagemin = require("gulp-imagemin");
+const cache = require("gulp-cached");
 // const browserSync = require("browser-sync");
 
 // File paths
@@ -29,9 +32,7 @@ function css() {
 
 function html() {
     return src(files.htmlPathSrc)
-    .pipe(nunjucks({
-        path: "src/templates/partials"
-    }))
+    .pipe(nunjucks({path: "src/templates/partials"}))
     .pipe(dest("dev"))
 }
 
@@ -40,30 +41,55 @@ function scripts() {
     .pipe(dest("dev/scripts"))
 }
 
+function images() {
+    return src(["src/img/**/*.jpg", "!src/img/**/*-lazy.jpg"])
+    .pipe(cache("imageResizing"))
+    .pipe(responsive({
+        "*.jpg" : [
+            {
+                width: 800,
+                rename: {suffix: "-800w"}
+            }, {
+                width: 1080,
+                rename: {suffix: "-1080w"}
+            }, {
+                width: 1440,
+                rename: {suffix: "-1440w"}
+            }, {
+                width: 2000
+            }
+        ]
+    }))
+    .pipe(imagemin())
+    .pipe(dest("dev/img"))
+}
+
 function typeface() {
-    return src("src/styles/*.woff")
-    .pipe(dest("dev/styles/"))
+    return src("src/styles/*.woff").pipe(dest("dev/styles/"))
 }
 
 // Watchtasks
 function watchTask() {
     watch([files.cssPathSrc], parallel(css));
     watch(["src/templates/**/*.njk"], parallel(html));
-    watch([files.jsPathSrc], parallel(scripts))
+    watch([files.jsPathSrc], parallel(scripts));
+    watch(["src/img/**/*.jpg"], parallel(images))
 }
 
 // Tasks for production
 function cssProduction() {
-    return src(files.cssPathDev)
-    .pipe(purgecss({
-        content: [files.htmlPathDev, files.jsPathDev],
+    return src(files.cssPathDev).pipe(purgecss({
+        content: [
+            files.htmlPathDev, files.jsPathDev
+        ],
         defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
     }))
-    .pipe(cleanCss({debug: true}, (details) => {
+    .pipe(cleanCss({
+        debug: true
+    }, (details) => {
         console.log(details.name + " was " + details.stats.originalSize / 100 + " bytes");
         console.log(details.name + " is now " + details.stats.minifiedSize / 100 + " bytes");
-      }))
-    .pipe(dest("public/styles"))
+    })).pipe(dest("public/styles"))
 }
 
 function htmlProduction() {
@@ -91,6 +117,7 @@ function typefaceProduction() {
 exports.css = css;
 exports.html = html;
 exports.scripts = scripts;
+exports.images = images;
 exports.watchTask = watchTask;
 exports.cssProduction = cssProduction;
 
