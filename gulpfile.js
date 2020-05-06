@@ -64,6 +64,11 @@ function images() {
     .pipe(dest("dev/img"))
 }
 
+function lazyImageCopy() {
+    return src("src/img/**/*-lazy.jpg")
+    .pipe(dest("dev/img"))
+}
+
 function typeface() {
     return src("src/styles/*.woff").pipe(dest("dev/styles/"))
 }
@@ -74,6 +79,7 @@ function watchTask() {
     watch(["src/templates/**/*.njk"], parallel(html));
     watch([files.jsPathSrc], parallel(scripts));
     watch(["src/img/**/*.jpg"], parallel(images))
+    watch(["src/img/**/*.jpg"], parallel(lazyImageCopy))
 }
 
 // Tasks for production
