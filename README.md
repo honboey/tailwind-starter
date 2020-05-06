@@ -49,7 +49,7 @@ These instructions are for getting the project running on a local development en
 * [Gulp](https://gulpjs.com/)
 
 ### Install plugins 
-Install all the necessary pluging by running `npm install gulp-postcss tailwindcss autoprefixer gulp-nunjucks-render gulp-purgecss gulp-clean-css --save-dev`
+Install all the necessary plug-ins by running `npm install gulp-postcss tailwindcss autoprefixer gulp-nunjucks-render gulp-purgecss gulp-clean-css gulp-terser --save-dev`
 
 ### Run your first build
 `gulp develop`
@@ -68,3 +68,9 @@ Install all the necessary pluging by running `npm install gulp-postcss tailwindc
 * `gulp production` processes and watches all [/dev](/dev) files and puts them into [/public](/public).
 
 * `gulp cssProduction` processes .css files in [/dev](/dev).
+* `gulp scriptsProduction` uglifies all .js files in [/dev](/dev)
+
+## Optional plug-ins
+Some useful plugins include:
+* [https://swup.js.org/](SwupJS) for animated page transitions
+

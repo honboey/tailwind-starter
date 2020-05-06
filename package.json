@@ -12,6 +12,7 @@
     "gulp-nunjucks-render": "^2.2.3",
     "gulp-postcss": "^8.0.0",
     "gulp-purgecss": "^2.1.2",
+    "gulp-terser": "^1.2.0",
     "tailwindcss": "^1.4.4"
   },
   "scripts": {

@@ -4,7 +4,8 @@ const tailwind = require("tailwindcss")
 const autoprefixer = require("autoprefixer");
 const nunjucks = require("gulp-nunjucks-render");
 const purgecss = require("gulp-purgecss");
-const cleanCss = require("gulp-clean-css")
+const cleanCss = require("gulp-clean-css");
+const terser = require('gulp-terser');
 // const browserSync = require("browser-sync");
 
 // File paths
@@ -72,6 +73,7 @@ function htmlProduction() {
 
 function scriptsProduction() {
     return src(files.jsPathDev)
+    .pipe(terser())
     .pipe(dest("public/scripts"))
 }
 
