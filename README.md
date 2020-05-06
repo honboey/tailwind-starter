@@ -74,3 +74,4 @@ Install all the necessary plug-ins by running `npm install gulp-postcss tailwind
 Some useful plugins include:
 * [SwupJS](https://swup.js.org/) for animated page transitions
 
+
