@@ -71,7 +71,10 @@ Install all the necessary plug-ins by running `npm install gulp-postcss tailwind
    * `gulp scriptsProduction` uglifies all .js files in [/dev](/dev)
 
 ## Optional plug-ins
-Some useful plugins include:
+There is another branch of this project called 'optionals'. This branch contains the following optional plugins:
 * [SwupJS](https://swup.js.org/) for animated page transitions
+* [gulp-responsive](https://www.npmjs.com/package/gulp-responsive) for making multiple resolutions of images
+* [gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) for minimising image size
+* [LazySizes](https://github.com/aFarkas/lazysizes) for lazy loading images
 
 
