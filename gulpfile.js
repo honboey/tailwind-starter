@@ -59,8 +59,6 @@ function images() {
             }, {
                 width: 1440,
                 rename: {suffix: "-1440w"}
-            }, {
-                width: 2000
             }
         ],
         "**/*" : [
@@ -73,8 +71,6 @@ function images() {
             }, {
                 width: 1440,
                 rename: {suffix: "-1440w"}
-            }, {
-                width: 2000
             }
         ]
     },
@@ -86,15 +82,9 @@ function images() {
     .pipe(dest("dev/img"))
 }
 
-// Copies over the "-lazy.jpg" image to /dev
-function lazyImageCopy() {
-    return src("src/img/**/*-lazy.jpg")
-    .pipe(dest("dev/img"))
-}
-
-// gulp-responsive doesn't recognise gifs so this copies over any gifs in the folder
-function gifCopy() {
-    return src("src/img/**/*.gif")
+// Copies over the original images to /dev
+function imageCopy() {
+    return src("src/img/**/*.{jpg,png,gif}")
     .pipe(dest("dev/img"))
 }
 
@@ -103,7 +93,7 @@ function watchTask() {
     watch([files.cssPathSrc], parallel(css));
     watch(["src/templates/**/*.njk"], parallel(html));
     watch([files.jsPathSrc], parallel(scripts));
-    watch(["src/img/**/*.{jpg,png,gif}"], parallel(images, lazyImageCopy, gifCopy))
+    watch(["src/img/**/*.{jpg,png,gif}"], parallel(images, imageCopy))
 }
 
 // Tasks for production
