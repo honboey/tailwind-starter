@@ -1,49 +1,58 @@
 const {src, dest, watch, series, parallel} = require("gulp");
+
+// css
 const postcss = require("gulp-postcss")
 const tailwind = require("tailwindcss")
 const autoprefixer = require("autoprefixer");
-const nunjucks = require("gulp-nunjucks-render");
 const purgecss = require("gulp-purgecss");
 const cleanCss = require("gulp-clean-css");
+
+// html
+const nunjucks = require("gulp-nunjucks-render");
+
+// javscript
 const terser = require("gulp-terser");
+
+// images
 const responsive = require("gulp-responsive");
 const cache = require("gulp-cached");
 
-// File paths
-const files = {
-    // src
-    htmlPathSrc: "src/templates/*.njk",
-    cssPathSrc: "src/styles/*.css",
-    jsPathSrc: "src/scripts/*.js",
-    // dev
-    htmlPathDev: "dev/*.html",
-    cssPathDev: "dev/styles/*.css",
-    jsPathDev: "dev/scripts/*.js"
-}
 
-// Tasks for development
+/******************************************************
+ * Tasks for development
+ * Processes all files in /src and places them in /dev 
+******************************************************/
+
+// CSS processing – loads tailwind css file and adds browser compatibility prefixes
 function css() {
-    return src(files.cssPathSrc)
+    return src("src/styles/*.css")
     .pipe(postcss([tailwind(), autoprefixer()]))
     .pipe(dest("dev/styles"))
 }
 
+// HTML processing – compiles njk files and converts them to html
 function html() {
-    return src(files.htmlPathSrc)
+    return src("src/templates/*.njk")
     .pipe(nunjucks({path: "src/templates/partials"}))
     .pipe(dest("dev"))
 }
 
+// Javascript processing – copies javascript files
 function scripts() {
-    return src(files.jsPathSrc)
+    return src("src/scripts/*.js")
     .pipe(dest("dev/scripts"))
 }
 
+// Font processing – copies font files
 function typeface() {
     return src("src/styles/*.woff").pipe(dest("dev/styles/"))
 }
 
-// This creates multiple sizes for any .jpg image in /src/img. It ignores any image which has the suffix "-lazy.jpg"
+/**************** 
+* Image processing
+****************/
+
+// Image resizing for responsive images – this ignores any image which has the suffix "-lazy.jpg"
 function images() {
     return src(["src/img/**/*.{jpg,png}", "!src/img/**/*-lazy.{jpg,png}"])
     // Only processes images which are new or changed
@@ -90,18 +99,23 @@ function imageCopy() {
 
 // Watchtasks
 function watchTask() {
-    watch([files.cssPathSrc], parallel(css));
+    watch(["src/styles/*.css"], parallel(css));
     watch(["src/templates/**/*.njk"], parallel(html));
-    watch([files.jsPathSrc], parallel(scripts));
+    watch(["src/scripts/*.js"], parallel(scripts));
     watch(["src/img/**/*.{jpg,png,gif}"], parallel(images, imageCopy))
 }
 
-// Tasks for production
+/******************************************************
+ * Tasks for production
+ * Processes all files in /dev and places them in /pub 
+******************************************************/
+
+// CSS processing – removes any unused CSS and uglifies / minimises
 function cssProduction() {
-    return src(files.cssPathDev).
+    return src("dev/styles/*.css").
     pipe(purgecss({
         content: [
-            files.htmlPathDev, files.jsPathDev
+            "dev/*.html", "dev/scripts/*.js"
         ],
         defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
     }))
@@ -113,28 +127,35 @@ function cssProduction() {
     })).pipe(dest("public/styles"))
 }
 
+// HTML processing – copies over HTML files
 function htmlProduction() {
-    return src(files.htmlPathDev)
+    return src("dev/*.html")
     .pipe(dest("public"))
 }
 
+// Javascript processing – uglifies / minimises javascript
 function scriptsProduction() {
-    return src(files.jsPathDev)
+    return src("dev/scripts/*.js")
     .pipe(terser())
     .pipe(dest("public/scripts"))
 }
 
+// Image processing – copies over images
 function imgProduction() {
     return src("dev/img/**/*.{jpg,gif,png}")
     .pipe(dest("public/img/"))
 }
 
+// Font processing – copies over fonts
 function typefaceProduction() {
     return src("dev/styles/*.woff")
     .pipe(dest("public/styles/"))
 }
 
-// Task calling
+/******************************************************
+ * Tasks 
+******************************************************/
+
 exports.css = css;
 exports.html = html;
 exports.scripts = scripts;
@@ -142,6 +163,9 @@ exports.images = images;
 exports.watchTask = watchTask;
 exports.cssProduction = cssProduction;
 
-// Combo task calling
+/******************************************************
+ * Compound tasks
+******************************************************/
+
 exports.develop = parallel(watchTask, typeface);
 exports.production = parallel(cssProduction, htmlProduction, scriptsProduction, imgProduction, typefaceProduction)
