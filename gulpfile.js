@@ -7,7 +7,6 @@ const purgecss = require("gulp-purgecss");
 const cleanCss = require("gulp-clean-css");
 const terser = require("gulp-terser");
 const responsive = require("gulp-responsive");
-const imagemin = require("gulp-imagemin");
 const cache = require("gulp-cached");
 
 // File paths
@@ -46,10 +45,25 @@ function typeface() {
 
 // This creates multiple sizes for any .jpg image in /src/img. It ignores any image which has the suffix "-lazy.jpg"
 function images() {
-    return src(["src/img/**/*.jpg", "!src/img/**/*-lazy.jpg"])
+    return src(["src/img/**/*.{jpg,png}", "!src/img/**/*-lazy.{jpg,png}"])
+    // Only processes images which are new or changed
     .pipe(cache("imageResizing"))
     .pipe(responsive({
-        "*.jpg" : [
+        "*" : [
+            {
+                width: 800,
+                rename: {suffix: "-800w"}
+            }, {
+                width: 1080,
+                rename: {suffix: "-1080w"}
+            }, {
+                width: 1440,
+                rename: {suffix: "-1440w"}
+            }, {
+                width: 2000
+            }
+        ],
+        "**/*" : [
             {
                 width: 800,
                 rename: {suffix: "-800w"}
@@ -63,8 +77,12 @@ function images() {
                 width: 2000
             }
         ]
+    },
+    {   
+        quality: 85,
+        skipOnEnlargement: true,
+        errorOnEnlargement: false
     }))
-    .pipe(imagemin())
     .pipe(dest("dev/img"))
 }
 
@@ -74,18 +92,24 @@ function lazyImageCopy() {
     .pipe(dest("dev/img"))
 }
 
+// gulp-responsive doesn't recognise gifs so this copies over any gifs in the folder
+function gifCopy() {
+    return src("src/img/**/*.gif")
+    .pipe(dest("dev/img"))
+}
+
 // Watchtasks
 function watchTask() {
     watch([files.cssPathSrc], parallel(css));
     watch(["src/templates/**/*.njk"], parallel(html));
     watch([files.jsPathSrc], parallel(scripts));
-    watch(["src/img/**/*.jpg"], parallel(images))
-    watch(["src/img/**/*.jpg"], parallel(lazyImageCopy))
+    watch(["src/img/**/*.{jpg,png,gif}"], parallel(images, lazyImageCopy, gifCopy))
 }
 
 // Tasks for production
 function cssProduction() {
-    return src(files.cssPathDev).pipe(purgecss({
+    return src(files.cssPathDev).
+    pipe(purgecss({
         content: [
             files.htmlPathDev, files.jsPathDev
         ],
