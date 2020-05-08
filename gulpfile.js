@@ -19,7 +19,7 @@ const cache = require("gulp-cached");
 
 
 /******************************************************
- * Tasks for development
+ * TASKS FOR DEVELOPMENT
  * Processes all files in /src and places them in /dev 
 ******************************************************/
 
@@ -106,7 +106,7 @@ function watchTask() {
 }
 
 /******************************************************
- * Tasks for production
+ * TASKS FOR PRODUCTION
  * Processes all files in /dev and places them in /pub 
 ******************************************************/
 
@@ -153,7 +153,7 @@ function typefaceProduction() {
 }
 
 /******************************************************
- * Tasks 
+ * TASKS 
 ******************************************************/
 
 exports.css = css;
@@ -164,7 +164,7 @@ exports.watchTask = watchTask;
 exports.cssProduction = cssProduction;
 
 /******************************************************
- * Compound tasks
+ * COMPOUND TASKS
 ******************************************************/
 
 exports.develop = parallel(watchTask, typeface);
