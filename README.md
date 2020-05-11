@@ -24,21 +24,21 @@ When development has finished a `gulp production` command runs a a series of scr
 The directory tree looks like this
 ```
 src (this holds all source files)
-    – img
-    – scripts
-    – styles
-    – templates (this holds .njk files which correspond to its .html page)
-        – partials (this holds the .html templating blocks)
+    |– img
+    |– scripts
+    |– styles
+    |– templates (this holds .njk files which correspond to its .html page)
+       |– partials (this holds the .html templating blocks)
     
 dev (this holds all development files)
-    – img
-    – scripts
-    – styles
+    |– img
+    |– scripts
+    |– styles
     
 public (this is production ready code)
-    – img
-    – scripts
-    – styles 
+    |– img
+    |– scripts
+    |– styles 
 ```
 
 ## Geting started
@@ -72,10 +72,8 @@ Install all the necessary plug-ins by running `npm install gulp-postcss tailwind
 
 ## Optional plug-ins
 There is another branch of this project called 'optionals'. This branch contains the following optional plugins:
-* [Lazysizes](https://github.com/aFarkas/lazysizes) for lazy loading
 * [SwupJS](https://swup.js.org/) for animated page transitions
 * [gulp-responsive](https://www.npmjs.com/package/gulp-responsive) for making multiple resolutions of images
-* [gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) for minimising image size
 * [LazySizes](https://github.com/aFarkas/lazysizes) for lazy loading images
 
 
