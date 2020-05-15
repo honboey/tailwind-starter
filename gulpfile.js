@@ -48,6 +48,12 @@ function typeface() {
     return src("src/styles/*.woff").pipe(dest("dev/styles/"))
 }
 
+// Favicon processing – copies favicon files. Use https://realfavicongenerator.net to generate favicons
+function favicon() {
+    return src(["src/favicon/*.png", "src/favicon/*.svg", "src/favicon/*.xml", "src/favicon/*.ico", "src/favicon/*.webmanifest"])
+    .pipe(dest("dev"))
+}
+
 /**************** 
 * Image processing
 ****************/
@@ -103,6 +109,7 @@ function watchTask() {
     watch(["src/templates/**/*.njk"], parallel(html));
     watch(["src/scripts/*.js"], parallel(scripts));
     watch(["src/img/**/*.{jpg,png,gif}"], parallel(images, imageCopy))
+    watch(["src/favicon"], parallel(favicon))
 }
 
 /******************************************************
@@ -112,13 +119,15 @@ function watchTask() {
 
 // CSS processing – removes any unused CSS and uglifies / minimises
 function cssProduction() {
-    return src("dev/styles/*.css").
-    pipe(purgecss({
+    return src("dev/styles/*.css")
+    // purgeCSS removes any unsused CSS items
+    .pipe(purgecss({
         content: [
             "dev/*.html", "dev/scripts/*.js"
         ],
         defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
     }))
+    // cleanCSS minifies CSS
     .pipe(cleanCss({
         debug: true
     }, (details) => {
@@ -152,6 +161,12 @@ function typefaceProduction() {
     .pipe(dest("public/styles/"))
 }
 
+// Favicon processing - copies over favicon files
+function faviconProduction() {
+    return src(["dev/*.png", "dev/*.svg", "dev/*.xml", "dev/*.ico", "dev/*.webmanifest"])
+    .pipe(dest("public"))
+}
+
 /******************************************************
  * TASKS 
 ******************************************************/
@@ -168,4 +183,4 @@ exports.cssProduction = cssProduction;
 ******************************************************/
 
 exports.develop = parallel(watchTask, typeface);
-exports.production = parallel(cssProduction, htmlProduction, scriptsProduction, imgProduction, typefaceProduction)
+exports.production = parallel(cssProduction, htmlProduction, scriptsProduction, imgProduction, typefaceProduction, faviconProduction)
