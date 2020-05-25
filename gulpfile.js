@@ -1,4 +1,6 @@
 const {src, dest, watch, series, parallel} = require("gulp");
+const rename = require("gulp-rename");
+const gulpIf = require("gulp-if");
 
 // css
 const postcss = require("gulp-postcss")
@@ -18,6 +20,7 @@ const responsive = require("gulp-responsive");
 const cache = require("gulp-cached");
 
 
+
 /******************************************************
  * TASKS FOR DEVELOPMENT
  * Processes all files in /src and places them in /dev 
@@ -33,7 +36,16 @@ function css() {
 // HTML processing – compiles njk files and converts them to html
 function html() {
     return src("src/templates/*.njk")
+    // Injects njk partials and then converts them to html files
     .pipe(nunjucks({path: "src/templates/partials"}))
+    // Runs gulp-rename on all files except index.html 
+    .pipe(gulpIf("!index.html", 
+        // Creates a folder based on the file name and then renames the file index.html 
+        rename(function(file) {
+            file.dirname = file.basename;
+            file.basename = "index";
+            file.extname = ".html"
+})))
     .pipe(dest("dev"))
 }
 

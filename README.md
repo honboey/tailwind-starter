@@ -49,7 +49,7 @@ These instructions are for getting the project running on a local development en
 * [Gulp](https://gulpjs.com/)
 
 ### Install plugins 
-Install all the necessary plug-ins by running `npm install gulp-postcss tailwindcss autoprefixer gulp-nunjucks-render gulp-purgecss gulp-clean-css gulp-terser --save-dev`
+Install all the necessary plug-ins by running `npm install` in the root of the project folder.
 
 ### Run your first build
 `gulp develop`
