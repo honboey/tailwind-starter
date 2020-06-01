@@ -38,14 +38,16 @@ function html() {
     return src("src/templates/*.njk")
     // Injects njk partials and then converts them to html files
     .pipe(nunjucks({path: "src/templates/partials"}))
-    // Runs gulp-rename on all files except index.html 
+    // Runs gulp-rename on all files. Renames them index.html and puts them into a folder named after the file name. Excludes the original index.html and 404.html 
     .pipe(gulpIf("!index.html", 
-        // Creates a folder based on the file name and then renames the file index.html 
-        rename(function(file) {
-            file.dirname = file.basename;
-            file.basename = "index";
-            file.extname = ".html"
+        gulpIf("!404.html",
+                 // Creates a folder based on the file name and then renames the file index.html 
+            rename(function(file) {
+                file.dirname = file.basename;
+                file.basename = "index";
+                file.extname = ".html"
 })))
+)
     .pipe(dest("dev"))
 }
 
@@ -135,7 +137,7 @@ function cssProduction() {
     // purgeCSS removes any unsused CSS items
     .pipe(purgecss({
         content: [
-            "dev/*.html", "dev/scripts/*.js"
+            "dev/**/*.html", "dev/scripts/*.js"
         ],
         defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
     }))

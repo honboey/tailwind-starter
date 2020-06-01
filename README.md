@@ -1,19 +1,20 @@
 # Tailwind Starter Kit
-This is a repository that holds some common plugins, workflows and a file structure that is useful for starting a Tailwind project. It uses Gulp as the toolkit to automate the workflow.
+This is a repository that holds some common plugins, workflows and file structure that is useful for starting a Tailwind project. It uses Gulp as the toolkit to automate the workflow.
 
 ## General workflow
 All source files are placed in [/src](/src). When you run `gulp develop` these files are processed and placed into [/dev](/dev). The files in [/dev](/dev) can be read by your browser.
 
 Out of the box, `gulp develop` does several things:
+* Watches any changes in [/src](/src) and processes these changes to [/dev](/dev)
 * Converts the original tailwind.css file to a browser-legible .css file.
 * Adds any necessary browser prefixes to the .css file so it is compatible on all browsers
 * Converts and collates the .njk files to browser-legible .html files
-• Creates folders based on these html file names and then renames them to index.html
+* Creates folders based on these html file names and then renames them to index.html
 * Copies any javascript files
 * Copies any fonts
 * Processes all images to various sizes to enable lazy loading and responsive images
 
-When development has finished a `gulp production` command runs a a series of scripts that processes all the [/dev](/dev) files and places them into [/public](/public). [/public](/public) is the final, production ready site. 
+When development has finished a `gulp production` command runs a series of scripts that processes all the [/dev](/dev) files and places them into [/public](/public). [/public](/public) is the final, production ready site. 
 
 `gulp production` does several things to get the files production ready:
 * Runs PurgeCSS to get rid on any unwanted CSS 
